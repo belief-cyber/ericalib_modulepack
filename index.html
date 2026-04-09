@@ -117,7 +117,7 @@
   .summary-apply-btn { width: 100%; padding: 12px; border-radius: var(--radius-md); border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-family: inherit; }
   .summary-apply-btn:hover { background: var(--primary-dark); }
   .summary-apply-btn.disabled { background: #ddd; color: #aaa; pointer-events: none; }
-  .tip { font-size: 11px; color: var(--text-tertiary); text-align: center; padding: 7px 0 0; }
+  .tip { font-size: 11px; color: var(--text-secondary); font-weight: 600; text-align: center; padding: 7px 0 0; }
 
   @media(max-width:600px){
     .rec-mod-detail,.mod-detail-box{grid-template-columns:1fr}
@@ -205,7 +205,7 @@
           <div class="sum-hours" id="totalHours">0시간</div>
         </div>
         <div class="sel-tags" id="selectedTags"><div class="empty-msg">위에서 강좌를 선택해보세요.</div></div>
-        <button class="copy-btn" id="copyBtn" style="display:none;" onclick="copySelection()">📋 선택 목록 + 코멘트 복사</button>
+        <button class="copy-btn" id="copyBtn" style="display:none;" onclick="copySelection()">📋 선택 목록 복사</button>
         <a class="summary-apply-btn disabled" id="applyBtn" href="https://hylu-e.hanyang.ac.kr/ko/program/all/view/2357" target="_blank">하이루이에서 신청하기 ↗</a>
         <div class="tip">* 선택 후 하이루이 페이지에서 포털 ID로 로그인하고 원하는 강좌를 신청하세요.</div>
       </div>
@@ -378,20 +378,18 @@ function copySelection() {
   const s = modules.filter(m => selected.has(m.id));
   if (!s.length) return;
   const listText = s.map(m => '· ' + getShortLabel(m) + ' — ' + m.title).join('\n');
-  const commentEl = document.getElementById('aiCommentText');
-  const commentText = commentEl ? commentEl.innerText : '';
-  const fullText = '[선택한 강좌]\n' + listText + (commentText ? '\n\n[코멘트]\n' + commentText : '');
+  const fullText = '[선택한 강좌]\n' + listText;
   navigator.clipboard.writeText(fullText).then(() => {
     const btn = document.getElementById('copyBtn');
     btn.textContent = '✓ 복사 완료!';
     btn.classList.add('copied');
-    setTimeout(() => { btn.innerHTML = '📋 선택 목록 + 코멘트 복사'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(() => { btn.innerHTML = '📋 선택 목록 복사'; btn.classList.remove('copied'); }, 2000);
   }).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = fullText; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
     const btn = document.getElementById('copyBtn');
     btn.textContent = '✓ 복사 완료!'; btn.classList.add('copied');
-    setTimeout(() => { btn.innerHTML = '📋 선택 목록 + 코멘트 복사'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(() => { btn.innerHTML = '📋 선택 목록 복사'; btn.classList.remove('copied'); }, 2000);
   });
 }
 
